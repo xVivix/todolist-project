@@ -52,11 +52,11 @@
                     <button class="btn btn-outline-dark" type="submit">Logout</button>
                 </form>
                 {% else %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'signupuser' %}">Sign Up</a>
+                <li class="form-inline ml-2">
+                    <a class="btn btn-outline-dark" href="{% url 'signupuser' %}">Sign Up</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
+                <li class="form-inline ml-2">
+                    <a class="btn btn-outline-dark" href="{% url 'loginuser' %}">Login</a>
                 </li>
                 {% endif %}
             </ul>
