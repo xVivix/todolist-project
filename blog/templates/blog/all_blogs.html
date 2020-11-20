@@ -1,0 +1,41 @@
+{%extends 'todo/base.html'%}
+{%block title%}Blogs{%endblock%}
+{% block content %}
+
+{% if not blogs.exists %}
+<div class="alert alert-secondary text-center" role="alert">
+    <h4 class="alert-heading">No Blogs</h4>
+    <p>Blogs are coming soon!.</p>
+    <hr>
+    <p class="mb-0">After the Administrator has written a blog, it is published here.</p>
+</div>
+{%else%}
+<div class="row justify-content-center mt-5 text-center">
+        <div class="col-md-10">
+            <h1>Personal Blogs</h1>
+        </div>
+</div>
+<div class="container row">
+    {% for blog in blogs %}
+    <div class="col-12 mb-3 mt-3">
+        <div class="card border border-dark {{todo.important|yesno:'bg-info ,'}} ">
+            <div class="card-body {{todo.important|yesno:'text-white,'}}">
+                <h4 class="card-title">{{blog.title}}</h4>
+                <p class="card-text">{{blog.date|date:'M j Y'}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {%if not blog.desc%}
+                    No Description was entered.
+                    {%else%}
+                    {{blog.desc|striptags|truncatechars:100}}
+                    {%endif%}
+                </li>
+                <li class="list-group-item"><a href="{% url 'blog:get_blog' blog.id %}" class="btn btn-primary">Open</a></li>
+            </ul>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endif%}
+{%endblock%}

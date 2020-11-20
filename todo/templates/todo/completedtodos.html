@@ -1,0 +1,28 @@
+{%extends 'todo/base.html'%}
+{%block title%}Completed ToDos{%endblock%}
+{%block content%}
+
+{% if not todos.exists %}
+<div class="alert alert-secondary text-center" role="alert">
+    <h4 class="alert-heading">No ToDos</h4>
+    <p>Zero completed ToDos found.</p>
+    <hr>
+    <p class="mb-0"><a href="{% url 'currenttodos' %}" class="alert-link">Open a ToDo</a> and mark it as completed. After you did, they will appear here!</p>
+</div>
+{%else%}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10 text-center">
+            <h1>Completed ToDos</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="list-group">
+                {% for todo in todos %}
+                    <a href="{% url 'viewtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-info{% endif %}"><b>{{ todo.title }}</b> - Completed {{ todo.completed|date:'M j Y H:i' }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{%endif%}
+{%endblock%}

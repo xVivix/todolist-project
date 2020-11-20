@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{%block title%}{%endblock%}</title>
+    <link rel="icon" href="{% static 'todo/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-light bg-light ">
+    <div class="container border-bottom pb-1">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'todo/logo.png' %}" width="30" height="30" class="d-inline-block align-top">
+            <span>Vivian Sailer</span>
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+                aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'createtodos' %}">Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'currenttodos' %}">Current</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'completedtodos' %}">Completed</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'blog:all_blogs'%}">Blog</a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <form class="form-inline ml-2" method="post" action="{% url 'logoutuser' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-dark" type="submit">Logout</button>
+                </form>
+                {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'signupuser' %}">Sign Up</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Content -->
+{% if error != null %}
+<div class="alert alert-danger" role="alert">
+    <strong>{{error}}</strong>
+</div>
+{%endif%}
+{% if success != null %}
+<div class="alert alert-success" role="alert">
+    <strong>{{success}}</strong>
+</div>
+{%endif%}
+<div class="container">
+    {%block content%}{%endblock%}
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

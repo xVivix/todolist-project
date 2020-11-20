@@ -1,0 +1,40 @@
+{%extends 'todo/base.html'%}
+{%block title%}Current ToDos{%endblock%}
+{%block content%}
+{% if not todos.exists %}
+<div class="alert alert-secondary text-center" role="alert">
+    <h4 class="alert-heading">No ToDos</h4>
+    <p>Zero ToDos found.</p>
+    <hr>
+    <p class="mb-0"><a href="{% url 'createtodos' %}" class="alert-link">Create new ToDos.</a> After you did, they will appear here!</p>
+</div>
+{%else%}
+<div class="row justify-content-center mt-5 text-center">
+        <div class="col-md-10">
+            <h1>Current ToDos</h1>
+        </div>
+</div>
+<div class="container row">
+    {% for todo in todos %}
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3 mt-3">
+        <div class="card border border-dark {{todo.important|yesno:'bg-info ,'}} ">
+            <div class="card-body {{todo.important|yesno:'text-white,'}}">
+                <h4 class="card-title">{{todo.title}}</h4>
+                <p class="card-text">{{todo.created_at|date:'M j Y H:i'}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {%if not todo.desc%}
+                    No Description was entered.
+                    {%else%}
+                    {{todo.desc|striptags|truncatechars:100}}
+                    {%endif%}
+                </li>
+                <li class="list-group-item"><a href="{%url 'viewtodo' todo.id%}" class="btn btn-primary">Open</a></li>
+            </ul>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endif%}
+{%endblock%}
